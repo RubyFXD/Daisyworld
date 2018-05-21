@@ -14,7 +14,7 @@ public class EmptySpot {
 	String type = "open";
 	
 	// The method to set the type
-	void setType(string str) {
+	void setType(String str) {
 		type = str;
 	}
 	

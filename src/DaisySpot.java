@@ -14,7 +14,7 @@ public class DaisySpot extends EmptySpot {
 	
 	// The certain temperature range of a daisy
 	double minTempe;
-	double highTempe;
+	double maxTempe;
 	
 	// The method to set the current age of a daisy
 	void setCurrentAge(int age) {
@@ -41,7 +41,7 @@ public class DaisySpot extends EmptySpot {
 		return minTempe;
 	}
 	
-	// The method to get the maxmum temperature
+	// The method to get the maximum temperature
 	double getMaxTempe() {
 		return maxTempe;
 	}
