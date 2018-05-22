@@ -10,17 +10,24 @@ public class World {
 	int length;
 
 	// The world is comprised of several patches
-	Patch patch;
+	Patch[][] patch;
 
 	// The global temperature of the world
-	double globalTempe;
+	static double globalTempe;
 
 	// The amount of incident energy on each pathch from sunlight
-	double luminosity;
+	static double luminosity;
 
 	// The percentage of the pathces that will be occupied by daisies
 	double blackProportion;
 	double whiteProportion;
+
+	public World(int width, int length, double blackProportion, double whiteProportion){
+		this.width=width;
+		this.length=length;
+		this.blackProportion=blackProportion;
+		this.whiteProportion=whiteProportion;
+	}
 
 	// The method to set the width of the world
 	void setWidth (int width) {
@@ -39,7 +46,7 @@ public class World {
 	}
 
 	// The method to set the lumionsity on each patch
-	void setLuminosity (int lum) {
+	void setLuminosity (double lum) {
 		luminosity = lum;
 	}
 
