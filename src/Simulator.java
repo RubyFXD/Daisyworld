@@ -123,12 +123,12 @@ public class Simulator {
 		//generate black daisy instance
 		if(0<=(double)result && (double)result<black){
 			//System.out.println("generate black");
-			return new Spot(albedoBalck,"blackDaisy",randomAge(),15,45);
+			return new Spot(albedoBalck,"blackDaisy",randomAge(),2.5,22.5);
 		}
 		//generate white daisy instance
 		else if(black<=(double)result && (double)result<black+white){
 			//System.out.println("generate white");
-			return new Spot(albedoWhite,"whiteDaisy",randomAge(),45,75);
+			return new Spot(albedoWhite,"whiteDaisy",randomAge(),22.5,42.5);
 		}
 		//generate open spot instance
 		else{
