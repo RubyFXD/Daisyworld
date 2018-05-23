@@ -1,3 +1,9 @@
+/**
+ * Simulator is used to simulate the daisyworld
+ * accept the set up parameters and initialize the world
+ * simulate the dynamic self-organization of the daisy world(affect by climate and pollution)
+ */
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
