@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /*
@@ -59,16 +60,6 @@ public class Patch {
 		}
 
 		temperature = (temperature + localHeating) / 2;
-
-	}
-
-	/**
-	 * spot with daisy has 10% chance to recover from pollution( from 1 to 0) spot
-	 * with pollution=1 has 10 % chance to change to pollution=2 spot with
-	 * pollution=2 has no chance to recover with pollution=0 has 10% change to
-	 * change to pollution=1
-	 */
-	public void pollutionChange(ArrayList<Patch> Neighbor) {
 
 	}
 

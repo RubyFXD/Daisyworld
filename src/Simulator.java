@@ -25,6 +25,9 @@ public class Simulator {
 	// The global temperature of the world
 	public static double globalTempe = 0;
 
+	//The global pollution of the world
+	public static double globalPollution=0;
+
 	private static ArrayList<Spot> blackDaisy;
 	private static ArrayList<Spot> whiteDaisy;
 
@@ -36,6 +39,7 @@ public class Simulator {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				patch[i][j] = new Patch();
+				initializePollution(patch[i][j]);
 			}
 		}
 
@@ -92,6 +96,119 @@ public class Simulator {
 			}
 		}
 
+	}
+
+	/**
+	 * set initial pollution on each spot
+	 */
+	public static void initializePollution(Patch patch){
+		double temp= Math.random();
+		if(temp>=0.0 && temp<0.3){
+			patch.setPollution(2);
+		}else if(temp>=0.3 && temp<0.8){
+			patch.setPollution(1);
+		}else{
+			patch.setPollution(0);
+		}
+	}
+	/**
+	 * calculate global pollution
+	 */
+	public static void calPollution(){
+		int tempPollution=0;
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				tempPollution=patch[i][j].getPollution()+tempPollution;
+			}
+		}
+		globalPollution=(double)tempPollution/(SIZE*SIZE);
+	}
+	/**
+	 * pollution =0 the spot has 20% chance change to 1
+	 * pollution =10 the spot has 20% chance change to 0, 20% change to 2
+	 * pollution =20 the spot has 20% chance change to 1
+	 */
+
+	public static void  pollutionChange() {
+		int [][] tempPollution = new int[SIZE][SIZE];
+		double temp=Math.random();
+//		int pollution_0_count=0;
+//		int pollution_1_count=0;
+//		int pollution_2_count=0;
+
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				if(patch[i][j].getPollution()==0){
+					if(temp>=0.0 && temp<0.2){
+						patch[i][j].setPollution(1);
+					}
+				}else if(patch[i][j].getPollution()==1){
+					if(temp>=0.0 && temp<0.2){
+						patch[i][j].setPollution(0);
+					}else if(temp>=0.2 && temp<0.4){
+						patch[i][j].setPollution(2);
+					}
+				}else{
+					if(temp>=0.0 && temp<0.2){
+						patch[i][j].setPollution(1);
+					}
+				}
+
+
+//				ArrayList<Patch> neighbour = getNeighbor(i, j);
+//
+//				for ( Iterator<Patch> it = neighbour.iterator(); it.hasNext(); ) {
+//					Patch tempPatch = it.next();
+//					if(tempPatch.getPollution()==0){
+//						pollution_0_count++;
+//					}else if(tempPatch.getPollution()==10){
+//						pollution_1_count++;
+//					}else{
+//						pollution_2_count++;
+//					}
+//				}
+//				if(pollution_0_count > pollution_1_count && pollution_0_count>pollution_2_count){
+//					tempPollution[i][j]=0;
+//				}else if(pollution_1_count>pollution_0_count && pollution_1_count>pollution_2_count){
+//					tempPollution[i][j]=10;
+//				}else if(pollution_2_count>pollution_0_count && pollution_2_count>pollution_1_count){
+//					tempPollution[i][j]=20;
+//				}else if(pollution_0_count == pollution_1_count && pollution_0_count >pollution_2_count){
+//					tempPollution[i][j]=0;
+//				}else if(pollution_1_count == pollution_2_count && pollution_1_count>pollution_0_count){
+//					tempPollution[i][j]=10;
+//				}else if(pollution_0_count == pollution_2_count && pollution_0_count >pollution_1_count){
+//					tempPollution[i][j]=0;
+//				}
+
+			}
+		}
+
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				patch[i][j].setPollution(tempPollution[i][j]);
+			}
+		}
+	}
+
+	/**
+	 * pollution=1 slight pollution decline the maxAge of the daisy
+	 * pollution=2 severe pollution kill the daisy immediately
+	 */
+	public static void checkPollution(){
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				if(patch[i][j].getSpot().getType()!="open"){
+					if(patch[i][j].getPollution()==1){
+						int maxAge=patch[i][j].getSpot().getMaxAge();
+						patch[i][j].getSpot().setMaxAge(maxAge--);
+					}else if(patch[i][j].getPollution()==2){
+						int maxAge=patch[i][j].getSpot().getMaxAge();
+						patch[i][j].getSpot().setCurrentAge(maxAge);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -226,7 +343,7 @@ public class Simulator {
 		// file operation
 		int tick = 0;
 		// Use Object instead of String, the function exportCsv(Object, buffer)
-		Object[] titles = new String[] { "tick", "num_white", "num_black", "global_temp", "luminosity" };
+		Object[] titles = new String[] { "tick", "num_white", "num_black", "global_temp","global_pollution", "luminosity" };
 		List<Object> titleList = Arrays.asList(titles);
 
 		File file = null;
@@ -256,8 +373,12 @@ public class Simulator {
 			everyPatchTemp();
 			diffuse();
 			ageWithTick();
+			checkPollution();
 			checkSurvival();
 			calculateGlobalTemp();
+			calPollution();
+			pollutionChange();
+
 
 			List<Object> list = new ArrayList<Object>();
 			list.add(Integer.toString(tick));
@@ -265,6 +386,7 @@ public class Simulator {
 			list.add(numBlacks());
 			calculateGlobalTemp();
 			list.add(globalTempe);
+			list.add(globalPollution);
 			list.add(World.getLuminosity());
 			try {
 				exportCsv(list,bufferWriter);
