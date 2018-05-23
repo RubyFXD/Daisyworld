@@ -104,9 +104,9 @@ public class Simulator {
 	public static void initializePollution(Patch patch){
 		double temp= Math.random();
 		if(temp>=0.0 && temp<0.3){
-			patch.setPollution(2);
+			patch.setPollution(20);
 		}else if(temp>=0.3 && temp<0.8){
-			patch.setPollution(1);
+			patch.setPollution(10);
 		}else{
 			patch.setPollution(0);
 		}
@@ -124,63 +124,30 @@ public class Simulator {
 		globalPollution=(double)tempPollution/(SIZE*SIZE);
 	}
 	/**
-	 * pollution =0 the spot has 20% chance change to 1
-	 * pollution =10 the spot has 20% chance change to 0, 20% change to 2
-	 * pollution =20 the spot has 20% chance change to 1
+	 * spot with daisy has 10% chance to recover from pollution(from 1 to 0)
+	 * spot with pollution=1 has 10% chance to change to pollution=2
+	 * spot with pollution=2 has no chance to recover
+	 * spot with pollution=0 has 10% change to change to pollution=1
 	 */
 
 	public static void  pollutionChange() {
 		int [][] tempPollution = new int[SIZE][SIZE];
 		double temp=Math.random();
-//		int pollution_0_count=0;
-//		int pollution_1_count=0;
-//		int pollution_2_count=0;
 
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
-				if(patch[i][j].getPollution()==0){
-					if(temp>=0.0 && temp<0.2){
-						patch[i][j].setPollution(1);
+				if(patch[i][j].getPollution()==10){
+						if(0.0<=temp && temp<0.1){
+							tempPollution[i][j]=20;
+						}
+						if(0.1<=temp && temp<0.2 && patch[i][j].getSpot().getType()!="open"){
+							tempPollution[i][j]=0;
+						}
+					}else if(patch[i][j].getPollution()==0){
+						if(0.0<=temp && temp<0.1){
+							tempPollution[i][j]=10;
+						}
 					}
-				}else if(patch[i][j].getPollution()==1){
-					if(temp>=0.0 && temp<0.2){
-						patch[i][j].setPollution(0);
-					}else if(temp>=0.2 && temp<0.4){
-						patch[i][j].setPollution(2);
-					}
-				}else{
-					if(temp>=0.0 && temp<0.2){
-						patch[i][j].setPollution(1);
-					}
-				}
-
-
-//				ArrayList<Patch> neighbour = getNeighbor(i, j);
-//
-//				for ( Iterator<Patch> it = neighbour.iterator(); it.hasNext(); ) {
-//					Patch tempPatch = it.next();
-//					if(tempPatch.getPollution()==0){
-//						pollution_0_count++;
-//					}else if(tempPatch.getPollution()==10){
-//						pollution_1_count++;
-//					}else{
-//						pollution_2_count++;
-//					}
-//				}
-//				if(pollution_0_count > pollution_1_count && pollution_0_count>pollution_2_count){
-//					tempPollution[i][j]=0;
-//				}else if(pollution_1_count>pollution_0_count && pollution_1_count>pollution_2_count){
-//					tempPollution[i][j]=10;
-//				}else if(pollution_2_count>pollution_0_count && pollution_2_count>pollution_1_count){
-//					tempPollution[i][j]=20;
-//				}else if(pollution_0_count == pollution_1_count && pollution_0_count >pollution_2_count){
-//					tempPollution[i][j]=0;
-//				}else if(pollution_1_count == pollution_2_count && pollution_1_count>pollution_0_count){
-//					tempPollution[i][j]=10;
-//				}else if(pollution_0_count == pollution_2_count && pollution_0_count >pollution_1_count){
-//					tempPollution[i][j]=0;
-//				}
-
 			}
 		}
 
@@ -199,10 +166,10 @@ public class Simulator {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				if(patch[i][j].getSpot().getType()!="open"){
-					if(patch[i][j].getPollution()==1){
+					if(patch[i][j].getPollution()==10){
 						int maxAge=patch[i][j].getSpot().getMaxAge();
 						patch[i][j].getSpot().setMaxAge(maxAge--);
-					}else if(patch[i][j].getPollution()==2){
+					}else if(patch[i][j].getPollution()==20){
 						int maxAge=patch[i][j].getSpot().getMaxAge();
 						patch[i][j].getSpot().setCurrentAge(maxAge);
 					}
@@ -237,7 +204,7 @@ public class Simulator {
 					// offspring
 					if (Math.random() < seedThreshold) {
 						Patch seedingPlace = findOpenNeighbor(i, j);
-						if (seedingPlace != null) {
+						if (seedingPlace != null && seedingPlace.getPollution()<2) {
 							// black
 							if (type.equals("blackDaisy")) {
 								Spot newSpot = new Spot(World.getAlbedoBlack(), "blackDaisy", randomAge());
