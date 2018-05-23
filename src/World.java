@@ -1,93 +1,82 @@
 /*
- * This class represents the world
+ * This class contains all parameters in the world for initialization
  *
- */
+ * */
 
 public class World {
+	// Albedo of the open patch
+	private static double albedoSurface;
 
-	// The width and length of the whole world
-	int width;
-	int length;
+	// Albedo of white daisies
+	private static double albedoWhite;
 
-	// The world is comprised of several patches
-	Patch[][] patch;
+	// Albedo of black daisies
+	private static double albedoBlack;
 
-	// The global temperature of the world
-	static double globalTempe;
+	// The percentage of the patches that will be occupied by daisies
+	private static double blackProportion;
+	private static double whiteProportion;
 
-	// The amount of incident energy on each pathch from sunlight
-	static double luminosity;
+	// The amount of incident energy on each patch from sunlight
+	private static double luminosity;
 
-	// The percentage of the pathces that will be occupied by daisies
-	double blackProportion;
-	double whiteProportion;
-
-	public World(int width, int length, double blackProportion, double whiteProportion){
-		this.width=width;
-		this.length=length;
-		this.blackProportion=blackProportion;
-		this.whiteProportion=whiteProportion;
+	// The method to set the albedo of open ground
+	public static void setAlbedoSurface(double albedo) {
+		albedoSurface = albedo;
 	}
 
-	// The method to set the width of the world
-	void setWidth (int width) {
-		this.width = width;
+	// The method to get the albedo of open ground
+	public static double getAlbedoSurface() {
+		return albedoSurface;
 	}
 
-	// The method to set the length of the world
-	void setLength (int length) {
-		this.length = length;
+	// The method to set the albedo of white daisies
+	public static void setAlbedoWhite(double albedo) {
+		albedoWhite = albedo;
 	}
 
-
-	// The method to set the global temperature
-	void setGlobalTempe (double temperature) {
-		globalTempe = temperature;
+	// The method to get the albedo of white daisies
+	public static double getAlbedoWhite() {
+		return albedoWhite;
 	}
 
-	// The method to set the lumionsity on each patch
-	void setLuminosity (double lum) {
-		luminosity = lum;
+	// The method to set the albedo of black daisies
+	public static void setAlbedoBlack(double albedo) {
+		albedoBlack = albedo;
 	}
 
-	// The method to set the percentage of balck daisies
-	void setBlackProportion (double proportion) {
+	// The method to get the albedo of black daisies
+	public static double getAlbedoBlack() {
+		return albedoBlack;
+	}
+
+	// The method to set the proportion of black daisies
+	public static void setBlackProportion(double proportion) {
 		blackProportion = proportion;
 	}
 
-	// The method to set the percentage of white daisies
-	void setWhitepProportion (double proportion) {
-		whiteProportion = proportion;
-	}
-
-
-	// The method to get the width of the world
-	int getWidth () {
-		return this.width;
-	}
-
-	// The method to get the length of the world
-	int getLength () {
-		return this.length;
-	}
-
-	// The method to get the global temperature
-	double getGlobalTempe () {
-		return globalTempe;
-	}
-
-	// The method to get the luminosity on each patch
-	double getLuminosity () {
-		return luminosity;
-	}
-
-	// The method to get the percentage of black daisies
-	double getBlackProportion () {
+	// The method to get the proportion of black daisies
+	public static double getBlackProportion() {
 		return blackProportion;
 	}
 
-	// The method to get the percentage of white daisies
-	double getWhiteProportion () {
+	// The method to set the proportion of white daisies
+	public static void setWhiteProportion(double proportion) {
+		whiteProportion = proportion;
+	}
+
+	// The method to get the proportion of white daisies
+	public static double getWhiteProportion() {
 		return whiteProportion;
+	}
+
+	// The method to set the luminosity on each patch
+	public static void setLuminosity(double luminosity) {
+		World.luminosity = luminosity;
+	}
+
+	// The method to get the luminosity on each patch
+	public static double getLuminosity() {
+		return luminosity;
 	}
 }
