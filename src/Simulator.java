@@ -103,9 +103,9 @@ public class Simulator {
 	 */
 	public static void initializePollution(Patch patch){
 		double temp= Math.random();
-		if(temp>=0.0 && temp<0.3){
+		if(temp>=0.0 && temp<0.1){
 			patch.setPollution(20);
-		}else if(temp>=0.3 && temp<0.8){
+		}else if(temp>=0.1 && temp<0.2){
 			patch.setPollution(10);
 		}else{
 			patch.setPollution(0);
@@ -131,29 +131,24 @@ public class Simulator {
 	 */
 
 	public static void  pollutionChange() {
-		int [][] tempPollution = new int[SIZE][SIZE];
+		//int [][] tempPollution = new int[SIZE][SIZE];
 		double temp=Math.random();
 
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
-				if(patch[i][j].getPollution()==10){
-						if(0.0<=temp && temp<0.1){
-							tempPollution[i][j]=20;
-						}
-						if(0.1<=temp && temp<0.2 && patch[i][j].getSpot().getType()!="open"){
-							tempPollution[i][j]=0;
-						}
-					}else if(patch[i][j].getPollution()==0){
-						if(0.0<=temp && temp<0.1){
-							tempPollution[i][j]=10;
-						}
+				if(patch[i][j].getPollution()==10) {
+					if (0.0 <= temp && temp < 0.1) {
+						patch[i][j].setPollution(20);
 					}
-			}
-		}
-
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				patch[i][j].setPollution(tempPollution[i][j]);
+					if (0.1 <= temp && temp < 0.2 && patch[i][j].getSpot().getType() != "open") {
+						patch[i][j].setPollution(0);
+					}
+				}
+				if(patch[i][j].getPollution()==0){
+					if(0.0<=temp && temp<0.1){
+						patch[i][j].setPollution(10);
+					}
+				}
 			}
 		}
 	}
@@ -197,7 +192,7 @@ public class Simulator {
 				double localTemp = patch[i][j].getTemperature();
 
 				// current patch is occupied by a daisy
-				if ((!type.equals("open")) && (age < MAXAGE)) {
+				if ((!type.equals("open")) && (age < spot.getMaxAge())) {
 					// probability calculation
 					double seedThreshold = (0.1457 * localTemp) - (0.0032 * Math.pow(localTemp, 2)) - 0.6443;
 
@@ -387,7 +382,7 @@ public class Simulator {
 					age = age + 1;
 					tempSpot.setCurrentAge(age);
 
-					if (tempSpot.getCurrentAge() == MAXAGE) {
+					if (tempSpot.getCurrentAge() > tempSpot.getMaxAge()) {
 						if (type.equals("blackDaisy")) {
 							blackDaisy.remove(tempSpot);
 						}else if (type.equals("whiteDaisy")) {

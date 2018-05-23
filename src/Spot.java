@@ -32,7 +32,7 @@ public class Spot {
 	public Spot(double albedo, String type, int age) {
 		this.albedo = albedo;
 		this.type = type;
-		currentAge = age;
+		maxAge = age;
 	}
 
 	// The method to set the albedo
