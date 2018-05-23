@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 /*
@@ -67,27 +68,8 @@ public class Patch {
 	 * pollution=2 has no chance to recover with pollution=0 has 10% change to
 	 * change to pollution=1
 	 */
-	public void pollutionChange() {
-		if (pollution == 1) {
-			if (0 <= randomrate() && randomrate() < 1) {
-				pollution = 2;
-			}
-			if (1 <= randomrate() && randomrate() < 2 && spot.getType() != "open") {
-				pollution = 0;
-			}
-		}
-		if (pollution == 0) {
-			if (0 <= randomrate() && randomrate() < 1) {
-				pollution = 1;
-			}
-		}
-	}
+	public void pollutionChange(ArrayList<Patch> Neighbor) {
 
-	// The method to generate a random number (0~9)
-	public int randomrate() {
-		Random random = new Random();
-		int result = random.nextInt(9);
-		return result;
 	}
 
 	public int getPollution() {

@@ -17,7 +17,7 @@ public class Simulator {
 	private static final int MAXAGE = 25;
 
 	// The width and length of the whole world (assume width = length = SIZE)
-	private static final int SIZE = 20;
+	private static final int SIZE = 50;
 
 	// The world is comprised of several patches
 	private static Patch[][] patch;
@@ -246,7 +246,7 @@ public class Simulator {
 		}
 
 		boolean notAllDead = true;
-		int test = 60;
+		int test = 200;
 
 		while (test != 0) {
 			tick++;
