@@ -1,78 +1,80 @@
+/*
+ * This class represents the spot type of the patch in the world
+ *
+ * It can be open, a white daisy, or a black daisy
+ */
 public class Spot {
 
 	// The percentage of energy this spot absorbs as heat from sunlight
-	double albedo = 0;
+	private double albedo;
 
 	// The type of this spot: open ground, black daisy, white daisy
-	String type = "open";
+	private String type;
 
 	// The daisy will eventually die of old age
-	int maxAge;
-	int currentAge=0;
+	private int maxAge;
+	private int currentAge;
 
-	// The certain temperature range of a daisy
-	double minTempe;
-	double maxTempe;
-
-	//constructor for empty spot
-	public Spot(double albedo, String type){
-		this.albedo=albedo;
-		this.type=type;
-	}
-	//constructor for black or white daisy
-	public Spot(double albedo, String type, int maxAge, double minTempe, double maxTempe){
-		this.albedo=albedo;
-		this.type=type;
-		this.maxAge=maxAge;
-		this.minTempe=minTempe;
-		this.maxTempe=maxTempe;
+	public Spot() {
+		albedo = 0;
+		type = "";
+		currentAge = 0;
+		maxAge = 0;
 	}
 
-	public double getAlbedo() {
-		return albedo;
+	// Constructor for empty spot (the patch is open)
+	public Spot(double albedo, String type) {
+		this.albedo = albedo;
+		this.type = type;
 	}
 
+	// Constructor for black or white daisy
+	public Spot(double albedo, String type, int age) {
+		this.albedo = albedo;
+		this.type = type;
+		currentAge = age;
+	}
+
+	// The method to set the albedo
 	public void setAlbedo(double albedo) {
 		this.albedo = albedo;
 	}
 
-	public String getType() {
-		return type;
+	// The method to get the albedo
+	public double getAlbedo() {
+		return albedo;
 	}
 
+	// The method to set the type of a patch: empty, black daisy or white daisy
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	public int getMaxAge() {
-		return maxAge;
+	// The method to get the type of a patch
+	public String getType() {
+		return type;
 	}
 
-	public void setMaxAge(int maxAge) {
-		this.maxAge = maxAge;
+	// The method to set the age of a daisy
+	public void setCurrentAge(int age) {
+		currentAge = age;
 	}
 
+	// The method to get the age of a daisy
 	public int getCurrentAge() {
 		return currentAge;
 	}
 
-	public void setCurrentAge(int currentAge) {
-		this.currentAge = currentAge;
+	// The method to set the maximum age of a daisy (pollution)
+	public void setMaxAge(int age) {
+		maxAge = age;
 	}
 
-	public double getMinTempe() {
-		return minTempe;
+	// The method to get the maximum age of a daisy (pollution)
+	public int getMaxAge() {
+		return maxAge;
 	}
 
-	public void setMinTempe(double minTempe) {
-		this.minTempe = minTempe;
-	}
 
-	public double getMaxTempe() {
-		return maxTempe;
-	}
 
-	public void setMaxTempe(double maxTempe) {
-		this.maxTempe = maxTempe;
-	}
 }
